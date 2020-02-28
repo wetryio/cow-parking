@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "device-service": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DEVICE_ID": "Device01",
+        "IOTHUB_DEVICE_CONN_STRING": "HostName=COWParkingHack.azure-devices.net;DeviceId=#DEVICE_ID#;SharedAccessKey=fWGn5cSiqkLo+2YfKSx8D0VZoxYhTvyD/X/TJLsjaic="
+      }
+    }
+  }
+}

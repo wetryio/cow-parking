@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>device_service</RootNamespace>
+    <SshDeployHost>192.168.1.169</SshDeployHost>
+    <SourcePath>C:\Users\grass\source\repos\cow-parking\src\devices\device-service\bin\Debug\netcoreapp3.1</SourcePath>
+    <SshDeployTargetPath>/home/pi/device</SshDeployTargetPath>
+    <SshDeployUsername>pi</SshDeployUsername>
+    <SshDeployPassword>puce0123</SshDeployPassword>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.2" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.23.1" />
+    <PackageReference Include="Unosquare.Raspberry.Abstractions" Version="0.4.0" />
+    <PackageReference Include="Unosquare.Raspberry.IO" Version="0.27.0" />
+    <PackageReference Include="Unosquare.RaspberryIO.Peripherals" Version="0.5.0" />
+    <PackageReference Include="Unosquare.WiringPi" Version="0.5.0" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo %25DATE%25 %25TIME%25 &gt;&gt; &quot;$(TargetDir)sshdeploy.ready&quot;" />
+  </Target>
+
+  <Target Condition="$(BuildingInsideSshDeploy) == '' and $(RuntimeIdentifier) == 'linux-arm'" Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd $(ProjectDir)" />
+    <Exec Command="dotnet-sshdeploy push -r $(RuntimeIdentifier)" />
+  </Target>
+
+</Project>
