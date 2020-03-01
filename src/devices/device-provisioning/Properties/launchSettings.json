@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "device-provisioning": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DPS_IDSCOPE": "0ne000CEB9C"
+      }
+    }
+  }
+}

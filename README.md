@@ -14,3 +14,12 @@ https://github.com/unosquare/raspberryio (HC-SR04 Support)
 
 ### Iot HUB
 https://docs.microsoft.com/en-us/azure/iot-hub/
+
+### Deploy Edge
+https://sandervandevelde.wordpress.com/2019/08/16/iot-edge-group-enrollments-using-symmetric-keys/
+
+
+### Generate config.gz
+https://www.raspberrypi.org/forums/viewtopic.php?t=195965
+
+sudo modprobe configs
