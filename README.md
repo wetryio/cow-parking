@@ -3,7 +3,7 @@ Citizen Of Wallonia Project
 
 ## Devices informations
 
-Children Device ID
+#### Children Device ID
 demoDeviceChildSensorHcSr
 
 PK : VXl+Bgohb7GR6EbY57fKbvIqMRr0Ri1KceHRofiLNT4=
@@ -13,7 +13,7 @@ PCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;Share
 SCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
 
 
-Children Device ID
+#### Children Device ID
 demoDeviceChildLightController
 
 PK : hU6JqUfZhdramuZH5aIVvoD/AT5zObgBRLJfvblkNv8=
