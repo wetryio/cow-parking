@@ -23,3 +23,7 @@ https://sandervandevelde.wordpress.com/2019/08/16/iot-edge-group-enrollments-usi
 https://www.raspberrypi.org/forums/viewtopic.php?t=195965
 
 sudo modprobe configs
+
+
+### Battery level in Raspi
+https://github.com/rricharz/pi-top-battery-status
