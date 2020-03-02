@@ -7,9 +7,9 @@ Citizen Of Wallonia Project
 demoDeviceChildSensorHcSr
 
 PK : VXl+Bgohb7GR6EbY57fKbvIqMRr0Ri1KceHRofiLNT4=
-<br />SK : EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
-<br />PCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=VXl+Bgohb7GR6EbY57fKbvIqMRr0Ri1KceHRofiLNT4=
-<br />SCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
+SK : EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
+PCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=VXl+Bgohb7GR6EbY57fKbvIqMRr0Ri1KceHRofiLNT4=
+SCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
 
 
 #### Children Device ID
@@ -17,8 +17,7 @@ demoDeviceChildLightController
 
 PK : hU6JqUfZhdramuZH5aIVvoD/AT5zObgBRLJfvblkNv8=
 SK : JZ7ycOlWTBotweFS/wyeiEOWSfRYz38/7fUaXb5pQBk=
-
-PCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildLightController;SharedAccessKey=hU6JqUfZhdramuZH5aIVvoD/AT5zObgBRLJfvblkNv8=
+PCS : HostName=CowHub.azure-sevices.net;DeviceId=demoDeviceChildLightController;SharedAccessKey=hU6JqUfZhdramuZH5aIVvoD/AT5zObgBRLJfvblkNv8=
 SCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildLightController;SharedAccessKey=JZ7ycOlWTBotweFS/wyeiEOWSfRYz38/7fUaXb5pQBk=
 
 
