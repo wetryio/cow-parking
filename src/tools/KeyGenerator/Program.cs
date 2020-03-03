@@ -12,7 +12,7 @@ namespace KeyGenerator
 
             string masterKey = "XMbXhPNmLY0INTr4Be2B8hK6Flj0aWsLug9kxysc00rHx5FMCCJghJVuYxmf+X0XewkuAnwLtX0xDpgnJ0oZDA==";
 
-            string registrationId = "device01"; // unique device
+            string registrationId = "device02"; // unique device
 
             String deviceKey =
                 Utils.ComputeDerivedSymmetricKey(

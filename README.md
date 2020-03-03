@@ -1,9 +1,9 @@
 # cow-parking
 Citizen Of Wallonia Project
 
-## Devices informations
+## Devices informations (Obsolete ?)
 
-#### Children Device ID
+#### Children Device ID (Obsolete ?)
 demoDeviceChildSensorHcSr
 
 PK : VXl+Bgohb7GR6EbY57fKbvIqMRr0Ri1KceHRofiLNT4=
@@ -12,7 +12,7 @@ PCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;Share
 SCS : HostName=CowHub.azure-devices.net;DeviceId=demoDeviceChildSensorHcSr;SharedAccessKey=EbClslecBoU6R6AVX/t91f8PuH6TeIqoco9izs7xmzw=
 
 
-#### Children Device ID
+#### Children Device ID (Obsolete ?)
 demoDeviceChildLightController
 
 PK : hU6JqUfZhdramuZH5aIVvoD/AT5zObgBRLJfvblkNv8=
@@ -47,3 +47,48 @@ sudo modprobe configs
 
 ### Battery level in Raspi
 https://github.com/rricharz/pi-top-battery-status
+
+
+
+### Orientation IOT EDGE
+
+https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-csharp-module
+
+Un module par sensor / action, cela crée un "genre" api pour les device edge, ex :
+
+[Get]
+deviceId/sensor/hc04
+
+[Post]
+deviceId/output/light
+
+Possible de lancer un handle qui écoute la distance et envois au hub.
+
+Avantage : 
+
+ - Utilisation du EDGE
+ - Utilisation de docker
+ - Un module = 1 sensor / Single Responsability
+ - 
+
+Inconvénient : 
+ - Un peu plus chaud a faire
+
+
+
+### Flux (Ma vision)
+
+1) On formate les devices, avec une image type.
+
+2) Au lance du device, celui-ci génére un ID unique et est register dans un groupe "Admin Stock"
+
+3) Quand un projet est crée, la personne peux "commander X" devices
+
+4) A ce moment, le module de provisioning, vas réecrire le yaml de configuration du edge, pour se binder sur les informations du projet 
+    a) Un enrollement group est crée pour le projet et celui-ci est utiliser pour les devices
+
+5) Une dois réecris le module reboot
+
+6) Les devices doivent à présent apparaitre dans le Enrollment Group du projet
+
+
