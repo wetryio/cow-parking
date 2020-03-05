@@ -92,3 +92,11 @@ Inconvénient :
 6) Les devices doivent à présent apparaitre dans le Enrollment Group du projet
 
 
+
+## Issue 
+### Azure IoT Provionning Profile 
+Le client n'existe pas en python, faudras call en REST
+
+https://github.com/Azure/azure-iot-sdk-python
+
+CRUD Operation with X.509 Group Enrollment	✖️	Manages device enrollment using X.509 group enrollment with the service SDK.
