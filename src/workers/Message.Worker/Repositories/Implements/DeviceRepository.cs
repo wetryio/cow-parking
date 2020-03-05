@@ -10,40 +10,40 @@ namespace Message.Worker.Repositories.Implements
 {
     public class DeviceRepository : IDeviceRepository
     {
-        public async Task<DeviceState> GetDevice(string deviceId)
-        {
-            try
+            public async Task<DeviceState> GetDevice(string deviceId)
             {
-                using (SqlConnection connection = new SqlConnection("Server=185.136.235.119;Initial Catalog=DEVICES;User Id=sa;Password=xxQb6FVes;"))
+                try
                 {
-                    connection.Open();
-                    string sql = $"SELECT * FROM dbo.DeviceState WHERE DeviceId = '{deviceId}';";
-                    using (SqlCommand cmd = new SqlCommand(sql, connection))
+                    using (SqlConnection connection = new SqlConnection("Server=185.136.235.119;Initial Catalog=DEVICES;User Id=sa;Password=xxQb6FVes;"))
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        connection.Open();
+                        string sql = $"SELECT * FROM dbo.DeviceState WHERE DeviceId = '{deviceId}';";
+                        using (SqlCommand cmd = new SqlCommand(sql, connection))
                         {
-                            while (reader.Read())
+                            using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                return new DeviceState()
+                                while (reader.Read())
                                 {
-                                    Id = Guid.Parse(reader[0].ToString()),
-                                    DeviceId = reader[1].ToString(),
-                                    Obstructed = bool.Parse(reader[2].ToString()),
-                                    BatteryLevel = int.Parse(reader[3].ToString()),
-                                    UpdateAt = DateTime.Parse(reader[4].ToString())
-                                };
+                                    return new DeviceState()
+                                    {
+                                        Id = Guid.Parse(reader[0].ToString()),
+                                        DeviceId = reader[1].ToString(),
+                                        Obstructed = bool.Parse(reader[2].ToString()),
+                                        BatteryLevel = int.Parse(reader[3].ToString()),
+                                        UpdateAt = DateTime.Parse(reader[4].ToString())
+                                    };
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
+                catch (Exception e)
+                {
 
-            }
+                }
 
-            return null;
-        }
+                return null;
+            }
 
         public Task<int> InsertDevice(DeviceState device)
         {
