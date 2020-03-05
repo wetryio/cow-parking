@@ -12,9 +12,10 @@ namespace DeviceProvisioning.Business.Implements
         private const string MasterKey = "Iyppvm9WIbViax1XlyrqW+/5R1ZPf3hyhtXp2ctS+s5AbsvCvnH5ma0V1UxX2GBY+1MnVoQYtsrMppVn4H/I5Q==";
         private const string ScopeId = "0ne000CEB9C";
 
-        public async Task SetupDevice()
+        public Task SetupDevice()
         {
             Console.WriteLine(ReadDeviceId());
+            return Task.CompletedTask;
         }
 
         private string GenerateYaml(string deviceId, string masterKey, string scopeId)
