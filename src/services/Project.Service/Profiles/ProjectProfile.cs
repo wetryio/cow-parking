@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Project.Service.Contracts.Request;
-using Project.Service.Contracts.Response;
+using Entity.Service.Contracts.Request;
+using Entity.Service.Contracts.Response;
 
-namespace Project.Service.Profiles
+namespace Entity.Service.Profiles
 {
     public class ProjectProfile : Profile
     {

@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/services/Project.Service/Project.Service.csproj", "src/services/Project.Service/"]
-RUN dotnet restore "src/services/Project.Service/Project.Service.csproj"
+COPY ["src/services/Entity.Service/Entity.Service.csproj", "src/services/Entity.Service/"]
+RUN dotnet restore "src/services/Entity.Service/Entity.Service.csproj"
 COPY . .
-WORKDIR "/src/src/services/Project.Service"
-RUN dotnet build "Project.Service.csproj" -c Release -o /app/build
+WORKDIR "/src/src/services/Entity.Service"
+RUN dotnet build "Entity.Service.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Project.Service.csproj" -c Release -o /app/publish
+RUN dotnet publish "Entity.Service.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Project.Service.dll"]
+ENTRYPOINT ["dotnet", "Entity.Service.dll"]

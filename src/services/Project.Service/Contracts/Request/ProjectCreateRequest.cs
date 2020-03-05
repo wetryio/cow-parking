@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Project.Service.Contracts.Request
+namespace Entity.Service.Contracts.Request
 {
     public class ProjectCreateRequest
     {

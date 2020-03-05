@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Project.Service": {
+    "Entity.Service": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

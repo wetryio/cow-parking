@@ -1,12 +1,12 @@
-﻿using Project.Service.Infrastructure.Data;
+﻿using Entity.Service.Infrastructure.Data;
 
-namespace Project.Service.Repositories.Implements
+namespace Entity.Service.Repositories.Implements
 {
     public class ProjectRepository : IProjectRepository
     {
-        private readonly ProjectDbContext projectDbContext;
+        private readonly EntityDbContext projectDbContext;
 
-        public ProjectRepository(ProjectDbContext projectDbContext)
+        public ProjectRepository(EntityDbContext projectDbContext)
         {
             this.projectDbContext = projectDbContext;
         }

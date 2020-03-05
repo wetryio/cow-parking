@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using Project.Service.Contracts.Request;
-using Project.Service.Contracts.Response;
-using Project.Service.Repositories;
+using Entity.Service.Contracts.Request;
+using Entity.Service.Contracts.Response;
+using Entity.Service.Repositories;
 using System.Threading.Tasks;
 
-namespace Project.Service.Business.Implements
+namespace Entity.Service.Business.Implements
 {
     public class ProjectBusiness : IProjectBusiness
     {

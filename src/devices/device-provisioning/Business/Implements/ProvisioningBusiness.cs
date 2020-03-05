@@ -1,6 +1,8 @@
 ﻿using DeviceProvisioning.Utils;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DeviceProvisioning.Business.Implements
@@ -12,21 +14,7 @@ namespace DeviceProvisioning.Business.Implements
 
         public async Task SetupDevice()
         {
-            System.Diagnostics.Process.Start("/bin/bash", "-c systemctl stop iotedge");
-
-            var deviceId = ReadDeviceId();
-            if (string.IsNullOrEmpty(deviceId))
-            {
-                deviceId = $"deviceId-{Guid.NewGuid()}";
-                Console.WriteLine($"device id : {deviceId}");
-                WriteDeviceId(deviceId);
-            }
-
-            var yamlToWrite = GenerateYaml(deviceId, MasterKey, ScopeId);
-            await File.WriteAllTextAsync("/etc/iotedge/config.yaml", yamlToWrite);
-
-            System.Diagnostics.Process.Start("/bin/bash", "-c systemctl daemon-reload");
-            System.Diagnostics.Process.Start("/bin/bash", "-c reboot");
+            Console.WriteLine(ReadDeviceId());
         }
 
         private string GenerateYaml(string deviceId, string masterKey, string scopeId)
@@ -36,20 +24,22 @@ namespace DeviceProvisioning.Business.Implements
                                Convert.FromBase64String(masterKey),
                                deviceId);
 
-            var yamlContent = File.ReadAllText("Yaml/iot-edge-config.yaml");
-
-            return yamlContent.Replace("##SCOPEID##", scopeId)
-                .Replace("##DEVICEID##", deviceId)
-                .Replace("##SYMMETRICKEY##", deviceKey);
+            return string.Empty;
         }
 
 
         private string ReadDeviceId()
         {
-            if (!File.Exists("deviceid.txt"))
-                File.Create("deviceid.txt");
+            var deviceInfos = File.ReadAllText("/proc/cpuinfo");
+            var match = Regex.Match(deviceInfos, @"Serial\s*:\s([0-9a-f]{16})");
 
-            return File.ReadAllText("deviceid.txt");
+            if (match.Success)
+            {
+                return match.Value.Replace(" ", "")
+                                             .Split(":").LastOrDefault();
+            }
+
+            return string.Empty;
         }
 
         private void WriteDeviceId(string deviceId)

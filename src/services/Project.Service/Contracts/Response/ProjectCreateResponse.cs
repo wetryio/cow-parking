@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Project.Service.Contracts.Response
+namespace Entity.Service.Contracts.Response
 {
     public class ProjectCreateResponse
     {

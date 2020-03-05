@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Project.Service.Infrastructure.Data.Tables
+namespace Entity.Service.Infrastructure.Data.Tables
 {
-    public class Project
+    public class Entity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

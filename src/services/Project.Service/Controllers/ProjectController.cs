@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Project.Service.Business;
+using Entity.Service.Business;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace Project.Service.Controllers
+namespace Entity.Service.Controllers
 {
     public class ProjectController : Controller
     {

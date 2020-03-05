@@ -1,8 +1,8 @@
-﻿using Project.Service.Contracts.Request;
-using Project.Service.Contracts.Response;
+﻿using Entity.Service.Contracts.Request;
+using Entity.Service.Contracts.Response;
 using System.Threading.Tasks;
 
-namespace Project.Service.Business
+namespace Entity.Service.Business
 {
     public interface IProjectBusiness
     {
