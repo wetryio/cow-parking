@@ -8,10 +8,10 @@ namespace Entity.Service.Profiles
     {
         public ProjectProfile()
         {
-            CreateMap<Infrastructure.Data.Tables.Project, ProjectResponse>();
-            CreateMap<ProjectResponse, Infrastructure.Data.Tables.Project>();
-            CreateMap<Infrastructure.Data.Tables.Project, ProjectCreateResponse>();
-            CreateMap<ProjectCreateRequest, Infrastructure.Data.Tables.Project>();
+            CreateMap<Infrastructure.Data.Tables.Entity, ProjectResponse>();
+            CreateMap<ProjectResponse, Infrastructure.Data.Tables.Entity>();
+            CreateMap<Infrastructure.Data.Tables.Entity, ProjectCreateResponse>();
+            CreateMap<ProjectCreateRequest, Infrastructure.Data.Tables.Entity>();
         }
     }
 }

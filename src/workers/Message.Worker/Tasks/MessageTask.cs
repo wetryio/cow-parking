@@ -1,4 +1,6 @@
-﻿using Message.Worker.Infrastructure.Options;
+﻿using Message.Worker.Business;
+using Message.Worker.Business.Implements;
+using Message.Worker.Infrastructure.Options;
 using Microsoft.Azure.EventHubs;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -51,7 +53,7 @@ namespace Message.Worker.Tasks
             {
                 if (stoppingToken.IsCancellationRequested) break;
 
-                var events = await eventHubReceiver.ReceiveAsync(100);
+                var events = await eventHubReceiver.ReceiveAsync(10);
 
                 if (events == null) continue;
 
@@ -63,19 +65,11 @@ namespace Message.Worker.Tasks
         {
             foreach (EventData eventData in events)
             {
-                string data = Encoding.UTF8.GetString(eventData.Body.Array);
-                Console.WriteLine("Message received on partition {0}:", partition);
-                Console.WriteLine("  {0}:", data);
-                Console.WriteLine("Application properties (set by device):");
-                foreach (var prop in eventData.Properties)
+                Task.Run(async () =>
                 {
-                    Console.WriteLine("  {0}: {1}", prop.Key, prop.Value);
-                }
-                Console.WriteLine("System properties (set by IoT Hub):");
-                foreach (var prop in eventData.SystemProperties)
-                {
-                    Console.WriteLine("  {0}: {1}", prop.Key, prop.Value);
-                }
+                    var deviceBusiness = new DeviceBusiness();
+                    await deviceBusiness.ProcessDevice(eventData);
+                });
             }
         }
 
