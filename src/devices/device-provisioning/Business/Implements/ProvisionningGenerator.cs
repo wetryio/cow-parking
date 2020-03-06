@@ -7,6 +7,7 @@ namespace DeviceProvisioning.Business.Implements
     public class ProvisioningGenerator
     {
         // As I am not sure what is doing this scope, I let it as is.
+        // For unknown reasons, my raspberry pi cannot read it from /etc/environment nor /etc/profile/device-registration.sh. Not even a reboot.
         private static string idScope = Environment.GetEnvironmentVariable("SCOPE_ID"); // "0ne000CEB9C";
         private const string GlobalDeviceEndpoint = "global.azure-devices-provisioning.net";
         private static string EnrollmentGroupPrimaryKey = Environment.GetEnvironmentVariable("PRIMARY_KEY"); // "NrEVzOt8iXlv4LlWkFnQms /PPFreOvaHTv84LtHmTvMoSN/GFKiKu3fV7ZjWpuZpBRgrkWDRvbUKjUiMjUFHAg==";
