@@ -7,8 +7,9 @@ namespace DeviceProvisioning
     {
         public static async Task Main(string[] args)
         {
-            ProvisioningBusiness provisioningBusiness = new ProvisioningBusiness();
-            await provisioningBusiness.SetupDevice();
+            var service = new ProvisioningBusiness();
+            if (service.IsAlreadyRegistered) return; // No need to reload config file
+            service.SetupDevice();
         }
     }
 }

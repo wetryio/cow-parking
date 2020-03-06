@@ -1,5 +1,4 @@
-﻿using DeviceProvisioning.Utils;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,27 +8,37 @@ namespace DeviceProvisioning.Business.Implements
 {
     public class ProvisioningBusiness
     {
-        private const string MasterKey = "Iyppvm9WIbViax1XlyrqW+/5R1ZPf3hyhtXp2ctS+s5AbsvCvnH5ma0V1UxX2GBY+1MnVoQYtsrMppVn4H/I5Q==";
-        private const string ScopeId = "0ne000CEB9C";
+        private readonly ConfigurationFileAccess fileAccessor = new ConfigurationFileAccess();
 
-        public Task SetupDevice()
+        private bool IsDeviceIdFromConfigIsMatching()
         {
-            Console.WriteLine(ReadDeviceId());
-            return Task.CompletedTask;
+            var ownDeviceId = ReadDeviceId();
+            var configuration = fileAccessor.GetConfiguration();
+            return ownDeviceId != configuration.DeviceId;
         }
 
-        private string GenerateYaml(string deviceId, string masterKey, string scopeId)
+        public void SetupDevice()
         {
-            String deviceKey =
-                    KeyGenerator.ComputeDerivedSymmetricKey(
-                               Convert.FromBase64String(masterKey),
-                               deviceId);
 
-            return string.Empty;
         }
 
+        // If file exists, it means that device is already registered and nothing is needed
+        public bool IsAlreadyRegistered
+        {
+            get
+            {
+                if (!fileAccessor.IsAlreadyRegistered)
+                {
+                    return false;
+                }
+                else
+                {
+                    return IsDeviceIdFromConfigIsMatching();
+                };
+            }
+        }
 
-        private string ReadDeviceId()
+        private static string ReadDeviceId()
         {
             var deviceInfos = File.ReadAllText("/proc/cpuinfo");
             var match = Regex.Match(deviceInfos, @"Serial\s*:\s([0-9a-f]{16})");
@@ -39,16 +48,8 @@ namespace DeviceProvisioning.Business.Implements
                 return match.Value.Replace(" ", "")
                                              .Split(":").LastOrDefault();
             }
-
-            return string.Empty;
-        }
-
-        private void WriteDeviceId(string deviceId)
-        {
-            if (!File.Exists("deviceid.txt"))
-                File.Create("deviceid.txt");
-
-            File.WriteAllText("deviceid.txt", deviceId);
+            
+            throw new InvalidOperationException("Impossible to extract serial number from /proc/cpuinfo file");
         }
     }
 }
