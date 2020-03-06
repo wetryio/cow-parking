@@ -16,7 +16,7 @@ namespace DeviceProvisioning.Business.Implements
             return JsonSerializer.Deserialize<ConfigurationDevice>(File.ReadAllText(ConfigurationFile));
         }
 
-        private static void StoreConfiguration(ConfigurationDevice configuration)
+        public void StoreConfiguration(ConfigurationDevice configuration)
         {
             File.WriteAllText(ConfigurationFile, JsonSerializer.Serialize(configuration));
         }

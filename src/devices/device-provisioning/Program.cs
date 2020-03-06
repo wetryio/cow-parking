@@ -5,7 +5,7 @@ namespace DeviceProvisioning
 {
     class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var service = new ProvisioningBusiness();
             if (service.IsAlreadyRegistered) return; // No need to reload config file
