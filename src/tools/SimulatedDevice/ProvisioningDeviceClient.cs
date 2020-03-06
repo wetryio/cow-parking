@@ -63,11 +63,11 @@ namespace SimulatedDevice
 
         private async void SendDeviceToCloudMessagesAsync()
         {
-            bool hasObstacle = GetRandomObstacle();
-            double batteryLevel = GetRandomBatteryLevel();
-
             while (true)
             {
+                bool hasObstacle = GetRandomObstacle();
+                double batteryLevel = GetRandomBatteryLevel();
+
                 var telemetryDataPoint = new
                 {
                     hasObstacle = hasObstacle,
@@ -94,7 +94,7 @@ namespace SimulatedDevice
         private int NextTelemetry()
         {
             Random gen = new Random();
-            int prob = gen.Next(100);
+            int prob = gen.Next(100, 600);
             return prob;
         }
 

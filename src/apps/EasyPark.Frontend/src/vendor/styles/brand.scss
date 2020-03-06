@@ -1,0 +1,54 @@
+.default-style .sidenav .app-brand.demo {
+    height: 66px;
+  }
+  
+  .material-style .sidenav .app-brand.demo {
+    height: 70px;
+  }
+  
+  .app-brand-logo.demo {
+    display: -ms-flexbox;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-pack: center;
+        justify-content: center;
+  }
+  
+  .app-brand-logo.demo svg {
+    width: 20px;
+    height: 11px;
+  }
+  
+  .app-brand-text.demo {
+    font-size: 1.1rem;
+  }
+  
+  .layout-1 .layout-sidenav .app-brand.demo,
+  .layout-1 .layout-sidenav .app-brand.demo + .sidenav-divider,
+  .layout-reversed .layout-2 .layout-sidenav .app-brand.demo {
+    display: none;
+  }
+  
+  .layout-1 .layout-navbar .app-brand.demo,
+  .layout-reversed .layout-2 .layout-navbar .app-brand.demo {
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+  
+  .layout-1 .layout-navbar .layout-sidenav-toggle,
+  .layout-reversed .layout-2 .layout-navbar .layout-sidenav-toggle,
+  .layout-offcanvas .layout-navbar .layout-sidenav-toggle,
+  .layout-fixed-offcanvas .layout-navbar .layout-sidenav-toggle {
+    display: block !important;
+  }
+  
+  @media (min-width: 992px) {
+    .layout-offcanvas .layout-sidenav .layout-sidenav-toggle,
+    .layout-fixed-offcanvas .layout-sidenav .layout-sidenav-toggle {
+      display: none;
+    }
+  }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace DebugTools.Controllers
 {
@@ -52,7 +53,7 @@ namespace DebugTools.Controllers
 
             }
 
-            return Ok(devices);
+            return Ok(devices.OrderByDescending(d => d.UpdateAt).ToList());
         }
     }
 }
