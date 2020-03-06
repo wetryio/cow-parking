@@ -1,5 +1,5 @@
-import fs from "fs";
-import { ConfigurationDevice } from "./Models/ConfigurationDevice";
+import * as fs from "fs";
+import { ConfigurationDevice } from "../Models/ConfigurationDevice";
 
 export class ConfigurationFileAccess {
     private ConfigurationFile = "/etc/cow-device.conf";
