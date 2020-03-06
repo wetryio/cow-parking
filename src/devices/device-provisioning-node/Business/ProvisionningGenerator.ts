@@ -33,7 +33,7 @@ export class ProvisioningGeneratorResult {
 export class ProvisioningGenerator {
     // as I am not sure what is doing this scope, I let it as is.
     // for unknown reasons, my raspberry pi cannot read it from /etc/environment nor /etc/profile/device-registration.sh. Not even a reboot.
-    private idScope = process.env.SCOPE_ID; // "0ne000CEB9C";
+    private idScope = "0ne000CEB9C";
     private EnrollmentGroupPrimaryKey = process.env.PRIMARY_KEY; // "NrEVzOt8iXlv4LlWkFnQms /PPFreOvaHTv84LtHmTvMoSN/GFKiKu3fV7ZjWpuZpBRgrkWDRvbUKjUiMjUFHAg==";
     private EnrollmentGroupSecondaryKey = process.env.SECONDARY_KEY; //"ozi3vfEQ/mLsPVGBAz7Dz3Utne9sR+sshIMaCI5tlpGyaxuwQ1JpRgxiqm4ZBxwy/uY5oz8exztdQA/piHdtrw==";
 
@@ -45,7 +45,7 @@ export class ProvisioningGenerator {
 
         let primaryKey = "";
         let secondaryKey = "";
-        if (!this.CanGenerateKeys(deviceId)) {
+        if (this.CanGenerateKeys(deviceId)) {
             primaryKey = this.ComputeDerivedSymmetricKey(this.EnrollmentGroupPrimaryKey ?? "", deviceId);
             secondaryKey = this.ComputeDerivedSymmetricKey(this.EnrollmentGroupSecondaryKey ?? "", deviceId);
         }
@@ -54,6 +54,7 @@ export class ProvisioningGenerator {
             return ProvisioningGeneratorResult.CannotGenerateKeys();
         }
 
+        console.log('ProvisioningGenerator.Generate successful');
         return new ProvisioningGeneratorResult({ IdScope: this.idScope, PrimaryKey: primaryKey, SecondaryKey: secondaryKey });
     }
 

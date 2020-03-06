@@ -12,7 +12,8 @@ export class ProvisioningBusiness {
     public SetupDevice(): void {
         const result = this.provisioningGenerator.Generate(this.generatedDeviceId);
         if (result.Type !== ProvisioningGeneratorResultType.Ok) {
-            throw `Cannot generate info for configuration. type : ${result.Type}`;
+            const error = `Cannot generate info for configuration. type : ${result.Type}`;
+            throw error;
         }
         const configuration: ConfigurationDevice = {
             DeviceId: this.generatedDeviceId,
@@ -30,10 +31,9 @@ export class ProvisioningBusiness {
     IsAlreadyRegistered(): boolean {
         if (!this.fileAccessor.IsAlreadyRegistered) {
             return false;
-        }
-        else {
+        } else {
             return this.IsDeviceIdFromConfigIsMatching();
-        };
+        }
     }
 
     private IsDeviceIdFromConfigIsMatching(): boolean {
@@ -46,16 +46,18 @@ export class ProvisioningBusiness {
         if (!deviceInfos) {
             throw "Impossible to extract serial number from /proc/cpuinfo file";
         }
-        const reg = new RegExp("Serial\s*:\s([0-9a-f]{16})");
-        const results = reg.exec(deviceInfos);
+        const reg = new RegExp('Serial\\s*:\\s([0-9a-f]{16})');
+        const results = deviceInfos.match(reg);
 
-        if (!results) {
-            throw "No regex match";
-        } else {
+        if (results) {
             const firstResult = results[0];
-            return firstResult
+            const deviceId = firstResult
                 .replace(" ", "")
                 .split(":")[1];
+            console.log("deviceid: " + deviceId);
+            return deviceId;
+        } else {
+            throw "No regex match";
         }
 
     }

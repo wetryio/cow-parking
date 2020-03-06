@@ -4,7 +4,7 @@ import { ConfigurationDevice } from "../Models/ConfigurationDevice";
 export class ConfigurationFileAccess {
     private ConfigurationFile = "/etc/cow-device.conf";
 
-    // If file exists, it means that device is already registered and nothing is needed
+    // if file exists, it means that device is already registered and nothing is needed
     public IsAlreadyRegistered = fs.existsSync(this.ConfigurationFile);
 
     public GetConfiguration(): ConfigurationDevice {
@@ -12,7 +12,8 @@ export class ConfigurationFileAccess {
         return JSON.parse(fileContent);
     }
 
-    public  StoreConfiguration( configuration: ConfigurationDevice): void {
-        fs.writeFileSync(this.ConfigurationFile, configuration);
+    public StoreConfiguration(configuration: ConfigurationDevice): void {
+        console.log('write file');
+        fs.writeFileSync(this.ConfigurationFile, JSON.stringify(configuration));
     }
 }
