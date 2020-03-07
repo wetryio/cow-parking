@@ -7,7 +7,12 @@ const MIN_VALID_TO_ALERT = 10;
 
 const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
 const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
-let previousStatus = false;
+
+const greenLed = new Gpio(15, {mode: Gpio.OUTPUT});
+const redLed = new Gpio(18, {mode: Gpio.OUTPUT});
+
+let previousStatus = false; // true = obstruded
+changeLedStatus(previousStatus);
 
 trigger.digitalWrite(0); // Make sure trigger is low
 
@@ -26,13 +31,20 @@ const watchHCSR04 = (callback) => {
       if (distance <= MIN_VALID_TO_ALERT && !previousStatus) {
         previousStatus = true;
         callback(previousStatus);
+        changeLedStatus(previousStatus);
       } else if (distance > MIN_VALID_TO_ALERT && previousStatus) {
         previousStatus = false;
         callback(previousStatus);
+        changeLedStatus(previousStatus);
       }
     }
   });
 };
+
+const changeLedStatus = (status) => {
+    greenLed.digitalWrite(status ? 0 : 1);
+    redLed.digitalWrite(status ? 1 : 0);
+}
 
 module.exports = {
     runDeviceController: function(statusChangedCallback) {

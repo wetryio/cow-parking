@@ -16,11 +16,9 @@ adminListener.listenMethod1((req, resp) => {
     console.log(req, resp);
 });
 
-adminListener.sentMessage({ hasObstable: false, batteryLevel: 10 })?.then(() => {
-    console.log('sent');
-});
-
 // Device management
 runDeviceController((status: boolean) => {
-    console.log(status);
+    adminListener.sentMessage({ hasObstable: status, batteryLevel: 10 })?.then(() => {
+        console.log('status sent', status);
+    });
 });
