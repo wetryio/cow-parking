@@ -33,34 +33,25 @@ export class ProvisioningGeneratorResult {
 }
 
 export class ProvisioningGenerator {
-    // as I am not sure what is doing this scope, I let it as is.
-    // for unknown reasons, my raspberry pi cannot read it from /etc/environment nor /etc/profile/device-registration.sh. Not even a reboot.
-
     Generate(deviceId: string): ProvisioningGeneratorResult {
-
-        let primaryKey = "";
-        let secondaryKey = "";
         if (this.CanGenerateKeys(deviceId)) {
-            primaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPPRIMARYKEY ?? "", deviceId);
-            secondaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPSECONDARYKEY ?? "", deviceId);
-        }
-        else {
+            const primaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPPRIMARYKEY ?? "", deviceId);
+            const secondaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPSECONDARYKEY ?? "", deviceId);
+            console.log('ProvisioningGenerator.Generate successful');
+            return new ProvisioningGeneratorResult({ IdScope: IDSCOPE, PrimaryKey: primaryKey, SecondaryKey: secondaryKey });
+        } else {
             console.log("Invalid configuration provided, must provide group enrollment keys or individual enrollment keys");
             return ProvisioningGeneratorResult.CannotGenerateKeys();
         }
-
-        console.log('ProvisioningGenerator.Generate successful');
-        return new ProvisioningGeneratorResult({ IdScope: IDSCOPE, PrimaryKey: primaryKey, SecondaryKey: secondaryKey });
     }
 
     CanGenerateKeys(deviceId: string): boolean {
         return !!deviceId || !!ENROLLMENTGROUPPRIMARYKEY || !!ENROLLMENTGROUPSECONDARYKEY;
     }
 
-
     ComputeDerivedSymmetricKey(masterKey: string, registrationId: string): string {
-        const hmac = crypto.createHmac("sha256", masterKey);
+        const hmac = crypto.createHmac("sha256", Buffer.from(masterKey, "base64"));
         hmac.update(registrationId);
-        return hmac.digest('hex');
+        return hmac.digest('base64');
     }
 }
