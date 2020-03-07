@@ -8,8 +8,8 @@ const MIN_VALID_TO_ALERT = 10;
 const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
 const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
 
-const greenLed = new Gpio(8, {mode: Gpio.OUTPUT});
-const redLed = new Gpio(7, {mode: Gpio.OUTPUT});
+const greenLed = new Gpio(5, {mode: Gpio.OUTPUT});
+const redLed = new Gpio(6, {mode: Gpio.OUTPUT});
 
 let previousStatus = false; // true = obstruded
 
