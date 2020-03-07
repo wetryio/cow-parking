@@ -17,6 +17,7 @@ export class ProvisioningFacade {
                 return;
             }
             console.log("registration ok");
+            console.log(result);
             const fileAccess = new ConfigurationFileAccess();
             config.IsRegistered = true;
             fileAccess.StoreConfiguration(config);
