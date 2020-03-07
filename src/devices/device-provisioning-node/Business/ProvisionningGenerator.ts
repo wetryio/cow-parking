@@ -1,3 +1,5 @@
+import { ENROLLMENTGROUPPRIMARYKEY, ENROLLMENTGROUPSECONDARYKEY, IDSCOPE } from "../Consts/Consts";
+
 const crypto = require("crypto");
 
 
@@ -33,21 +35,14 @@ export class ProvisioningGeneratorResult {
 export class ProvisioningGenerator {
     // as I am not sure what is doing this scope, I let it as is.
     // for unknown reasons, my raspberry pi cannot read it from /etc/environment nor /etc/profile/device-registration.sh. Not even a reboot.
-    private idScope = "0ne000CEB9C";
-    private EnrollmentGroupPrimaryKey = process.env.PRIMARY_KEY; // "NrEVzOt8iXlv4LlWkFnQms /PPFreOvaHTv84LtHmTvMoSN/GFKiKu3fV7ZjWpuZpBRgrkWDRvbUKjUiMjUFHAg==";
-    private EnrollmentGroupSecondaryKey = process.env.SECONDARY_KEY; //"ozi3vfEQ/mLsPVGBAz7Dz3Utne9sR+sshIMaCI5tlpGyaxuwQ1JpRgxiqm4ZBxwy/uY5oz8exztdQA/piHdtrw==";
 
     Generate(deviceId: string): ProvisioningGeneratorResult {
-        if (!this.idScope) {
-            console.log("ProvisioningDeviceClientSymmetricKey <IDScope>");
-            return ProvisioningGeneratorResult.MissingScopeId();
-        }
 
         let primaryKey = "";
         let secondaryKey = "";
         if (this.CanGenerateKeys(deviceId)) {
-            primaryKey = this.ComputeDerivedSymmetricKey(this.EnrollmentGroupPrimaryKey ?? "", deviceId);
-            secondaryKey = this.ComputeDerivedSymmetricKey(this.EnrollmentGroupSecondaryKey ?? "", deviceId);
+            primaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPPRIMARYKEY ?? "", deviceId);
+            secondaryKey = this.ComputeDerivedSymmetricKey(ENROLLMENTGROUPSECONDARYKEY ?? "", deviceId);
         }
         else {
             console.log("Invalid configuration provided, must provide group enrollment keys or individual enrollment keys");
@@ -55,11 +50,11 @@ export class ProvisioningGenerator {
         }
 
         console.log('ProvisioningGenerator.Generate successful');
-        return new ProvisioningGeneratorResult({ IdScope: this.idScope, PrimaryKey: primaryKey, SecondaryKey: secondaryKey });
+        return new ProvisioningGeneratorResult({ IdScope: IDSCOPE, PrimaryKey: primaryKey, SecondaryKey: secondaryKey });
     }
 
     CanGenerateKeys(deviceId: string): boolean {
-        return !!deviceId || !!this.EnrollmentGroupPrimaryKey || !!this.EnrollmentGroupSecondaryKey;
+        return !!deviceId || !!ENROLLMENTGROUPPRIMARYKEY || !!ENROLLMENTGROUPSECONDARYKEY;
     }
 
 

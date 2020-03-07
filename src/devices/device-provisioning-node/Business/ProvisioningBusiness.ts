@@ -2,6 +2,8 @@ import { ConfigurationFileAccess } from "./ConfigurationFileAccess";
 import { ProvisioningGenerator, ProvisioningGeneratorResultType } from "./ProvisionningGenerator";
 import * as fs from "fs";
 import { ConfigurationDevice } from "../Models/ConfigurationDevice";
+import { ProvisioningDeviceClient } from 'azure-iot-provisioning-device';
+import { ProvisioningFacade } from "./ProvisioningFacade";
 
 export class ProvisioningBusiness {
 
@@ -21,10 +23,12 @@ export class ProvisioningBusiness {
             IdScope: result.IdScope ?? "",
             PrimaryKey: result.PrimaryKey ?? "",
             SecondaryKey: result.SecondaryKey ?? "",
+            IsRegistered: false,
         };
         this.fileAccessor.StoreConfiguration(configuration);
 
-        // TODO: Use ProvisioningDeviceClient to register in azure
+        const facade = new ProvisioningFacade();
+        facade.register(configuration);
     }
 
     // // If file exists, it means that device is already registered and nothing is needed
