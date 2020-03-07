@@ -19,6 +19,11 @@ const routes: Routes = [
                                 .then(m => m.AccountModule)
       },
       {
+        path: 'entity',
+        loadChildren: () => import('./modules/entity/entity.module')
+                                .then(m => m.EntityModule)
+      },
+      {
         path: '',
         loadChildren: () => import('./modules/dashboard/dashboard.module')
                                 .then(m => m.DashboardModule)
@@ -32,7 +37,7 @@ const routes: Routes = [
 //
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -37,14 +37,14 @@
 
     <sidenav-divider class="mb-1"></sidenav-divider>
 
-    <sidenav-router-link (click)="open(slideModal, { windowClass: 'modal-slide' })">Create new project
+    <sidenav-router-link (click)="open(slideModal, { windowClass: 'modal-slide' })">Create new entity
     </sidenav-router-link>
 
-    <sidenav-menu icon="ion ion-logo-buffer" [active]="isMenuActive('/project')" [open]="isMenuOpen('/project')"
-      text="Projects" *ngIf="projectList.length > 0">
-      <a style="text-transform: capitalize" [class.active]="isActive(project.id)" *ngFor="let project of projectList"
-        class="sidenav-link" [routerLink]="['/project', project.id]">
-        <div>{{ project.name }}</div>
+    <sidenav-menu icon="ion ion-logo-buffer" [active]="isMenuActive('/entity')" [open]="isMenuOpen('/entity')"
+      text="Entities" *ngIf="entityList.length > 0">
+      <a style="text-transform: capitalize" [class.active]="isActive(entity.id)" *ngFor="let entity of entityList"
+        class="sidenav-link" [routerLink]="['/entity', entity.id]">
+        <div>{{ entity.name }}</div>
       </a>
     </sidenav-menu>
   </div>
@@ -55,15 +55,26 @@
   <div class="modal-body">
     <div class="form-row">
       <div class="form-group col">
-        <label class="form-label">Project name</label>
-        <input type="text" [(ngModel)]="projectName" class="form-control" placeholder="Insert your project name">
+        <label class="form-label">Entity name</label>
+        <input type="text" [(ngModel)]="entityName" class="form-control" placeholder="Insert your entity name">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col">
-        <label class="form-label">Allow Origin(s)</label>
-        <input type="text" *ngFor="let origin of allowOrigins" [(ngModel)]="origin" class="form-control mt-1" placeholder="Insert your allowed origins">
-        <button type="button" (click)="addOrigin()" class="btn btn-outline-info btn-block mt-2">Add origin</button>
+        <label class="form-label">Description</label>
+        <input type="text" [(ngModel)]="description" class="form-control" placeholder="Insert your entity description">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label class="form-label">Locality post code</label>
+        <input type="text" [(ngModel)]="postCode" class="form-control" placeholder="Insert your entity post code">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label class="form-label">Required devices ({{ deviceCount }})</label>
+        <input [(ngModel)]="deviceCount" max="15" min="1" class="custom-range ng-valid ng-dirty ng-touched" type="range" />
       </div>
     </div>
     <button type="button" class="btn btn-primary btn-block mt-3" (click)="createProject()">Create</button>

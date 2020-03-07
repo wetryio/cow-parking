@@ -23,7 +23,7 @@ import { LayoutModule } from './layout/layout.module';
 import { AuthService } from './services/auth.service';
 import { InterceptorService } from './interceptors/interceptor.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ProjectService } from './services/project.service';
+import { EntityService } from './services/entity.service';
 
 // *******************************************************************************
 //
@@ -45,7 +45,7 @@ import { ProjectService } from './services/project.service';
   providers: [
     Title,
     AppService,
-    ProjectService,
+    EntityService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

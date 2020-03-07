@@ -2,7 +2,7 @@
 
 namespace Entity.Service.Contracts.Response
 {
-    public class ProjectCreateResponse
+    public class EntityCreateResponse
     {
         public Guid ProjectId { get; set; }
     }

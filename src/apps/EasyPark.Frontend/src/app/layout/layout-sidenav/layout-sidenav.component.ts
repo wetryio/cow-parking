@@ -4,100 +4,102 @@ import { AppService } from '../../app.service';
 import { LayoutService } from '../layout.service';
 import { Project } from 'src/app/models/project.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ProjectService } from 'src/app/services/project.service';
+import { EntityService } from 'src/app/services/entity.service';
 
 @Component({
-  selector: 'app-layout-sidenav',
-  templateUrl: './layout-sidenav.component.html',
-  styles: [':host { display: block; }']
+	selector: 'app-layout-sidenav',
+	templateUrl: './layout-sidenav.component.html',
+	styles: [':host { display: block; }']
 })
 export class LayoutSidenavComponent implements AfterViewInit, OnInit {
-  @Input() orientation = 'vertical';
+	@Input() orientation = 'vertical';
 
-  @HostBinding('class.layout-sidenav') hostClassVertical = false;
-  @HostBinding('class.layout-sidenav-horizontal') hostClassHorizontal = false;
-  @HostBinding('class.flex-grow-0') hostClassFlex = false;
+	@HostBinding('class.layout-sidenav') hostClassVertical = false;
+	@HostBinding('class.layout-sidenav-horizontal') hostClassHorizontal = false;
+	@HostBinding('class.flex-grow-0') hostClassFlex = false;
 
-  public projectName: string;
-  public allowOrigins: string[] = new Array<string>();
-  public projectList: Project[] = new Array<Project>();
+	public entityName: string;
+	public deviceCount = 10;
+	public description: string;
+	public postCode: string;
 
-  constructor(private router: Router, private appService: AppService, private projectService: ProjectService, private layoutService: LayoutService,
-    private modalService: NgbModal) {
-    // Set host classes
-    this.hostClassVertical = this.orientation !== 'horizontal';
-    this.hostClassHorizontal = !this.hostClassVertical;
-    this.hostClassFlex = this.hostClassHorizontal;
-  }
+	public entityList: Project[] = new Array<Project>();
 
-  ngAfterViewInit() {
-    // Safari bugfix
-    this.layoutService._redrawLayoutSidenav();
-  }
+	constructor(private router: Router, private appService: AppService, private projectService: EntityService, private layoutService: LayoutService,
+		private modalService: NgbModal) {
+		// Set host classes
+		this.hostClassVertical = this.orientation !== 'horizontal';
+		this.hostClassHorizontal = !this.hostClassVertical;
+		this.hostClassFlex = this.hostClassHorizontal;
+	}
 
-  ngOnInit() {
-    this.projectService.projects$().subscribe(s => this.projectList = s.projects);
-  }
+	ngAfterViewInit() {
+		// Safari bugfix
+		this.layoutService._redrawLayoutSidenav();
+	}
 
-  getClasses() {
-    let bg = this.appService.layoutSidenavBg;
+	ngOnInit() {
+		this.projectService.entities$().subscribe(s => {
+			this.entityList = s;
+			console.log(this.entityList);
+		});
+	}
 
-    if (this.orientation === 'horizontal' && (bg.indexOf(' sidenav-dark') !== -1 || bg.indexOf(' sidenav-light') !== -1)) {
-      bg = bg
-        .replace(' sidenav-dark', '')
-        .replace(' sidenav-light', '')
-        .replace('-darker', '')
-        .replace('-dark', '');
-    }
+	getClasses() {
+		let bg = this.appService.layoutSidenavBg;
 
-    return `${this.orientation === 'horizontal' ? 'container-p-x ' : ''} bg-${bg}`;
-  }
+		if (this.orientation === 'horizontal' && (bg.indexOf(' sidenav-dark') !== -1 || bg.indexOf(' sidenav-light') !== -1)) {
+			bg = bg
+				.replace(' sidenav-dark', '')
+				.replace(' sidenav-light', '')
+				.replace('-darker', '')
+				.replace('-dark', '');
+		}
 
-  isActive(url) {
-    return window.location.href.indexOf(url) > -1;
-  }
+		return `${this.orientation === 'horizontal' ? 'container-p-x ' : ''} bg-${bg}`;
+	}
 
-  isMenuActive(url) {
-    return this.router.isActive(url, false);
-  }
+	isActive(url) {
+		return window.location.href.indexOf(url) > -1;
+	}
 
-  isMenuOpen(url) {
-    return this.router.isActive(url, false) && this.orientation !== 'horizontal';
-  }
+	isMenuActive(url) {
+		return this.router.isActive(url, false);
+	}
 
-  toggleSidenav() {
-    this.layoutService.toggleCollapsed();
-  }
+	isMenuOpen(url) {
+		return this.router.isActive(url, false) && this.orientation !== 'horizontal';
+	}
 
-  addOrigin() {
-    this.allowOrigins.push("");
-  }
+	toggleSidenav() {
+		this.layoutService.toggleCollapsed();
+	}
 
-  createProject() {
-    this.projectService
-      .projectCreateResponse$(this.projectName, this.allowOrigins)
-      .subscribe((s: any) => {
-        this.projectService.projects$().subscribe(s => this.projectList = s.projects);
-        this.modalService.dismissAll();
-        this.router.navigate(['/project', s.id]);
-      });
-  }
+	createProject() {
+		this.projectService
+			.entityCreateResponse$(this.entityName, this.description, this.deviceCount, this.postCode)
+			.subscribe((s: any) => {
+				this.projectService.entities$().subscribe(s => this.entityList = s);
+				this.modalService.dismissAll();
+				this.router.navigate(['/entity', s.id]);
+			});
+	}
 
-  open(content, options = {}) {
-    this.modalService.open(content, options).result.then((result) => {
-      console.log(`Closed with: ${result}`);
-    }, (reason) => {
-      console.log(`Dismissed ${this.getDismissReason(reason)}`);
-    });
-  }
+	open(content, options = {}) {
+		this.modalService.open(content, options).result.then((result) => {
+			console.log(`Closed with: ${result}`);
+		}, (reason) => {
+			console.log(`Dismissed ${this.getDismissReason(reason)}`);
+		});
+	}
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+	private getDismissReason(reason: any): string {
+		if (reason === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return `with: ${reason}`;
+		}
+	}
 }

@@ -6,6 +6,14 @@ CREATE TABLE DeviceStateHistory(
 	EventDate DATETIME NOT NULL DEFAULT GETUTCDATE()
 );
 
+ CREATE TABLE DeviceRegistration(
+	Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+	DeviceId NVARCHAR(MAX) NOT NULL,
+	EntityId UNIQUEIDENTIFIER NULL
+  );
+
+ALTER TABLE DeviceRegistration
+ADD EntityId UNIQUEIDENTIFIER NULL
 
 CREATE TRIGGER T_UpdateDeviceState ON DeviceStateHistory FOR INSERT AS 
 BEGIN
@@ -24,7 +32,11 @@ BEGIN
 
 	IF @deviceCount = 0
 	BEGIN
-		INSERT INTO DeviceState(DeviceId, BatteryLevel, Obstructed) VALUES(@deviceId, @batteryLevel, @obstructed);
+		INSERT INTO DeviceRegistration(DeviceId) VALUES(@deviceId);
+		IF @deviceId IS NOT NULL
+		BEGIN
+			INSERT INTO DeviceState(DeviceId, BatteryLevel, Obstructed) VALUES(@deviceId, @batteryLevel, @obstructed);
+		END
 	END
 	ELSE
 	BEGIN
