@@ -16,10 +16,16 @@
   },
   "dependencies": {
     "azure-iot-device": "^1.12.2",
+    "azure-iot-device-amqp": "^1.11.2",
+    "azure-iot-device-http": "^1.11.2",
+    "azure-iot-device-mqtt": "^1.11.2",
     "azure-iot-provisioning-device": "^1.7.2",
     "azure-iot-provisioning-device-amqp": "^1.7.2",
     "azure-iot-provisioning-device-http": "^1.7.2",
     "azure-iot-provisioning-service": "^1.7.2",
-    "azure-iot-security-symmetric-key": "^1.6.2"
+    "azure-iot-security-symmetric-key": "^1.6.2",
+    "typescript": "^3.8.3",
+    "uuid": "^7.0.2",
+    "pigpio": "^3.0.0"
   }
 }

@@ -1,13 +1,17 @@
-// for installation, see here https://github.com/fivdi/pigpio#measure-distance-with-a-hc-sr04-ultrasonic-sensor
 const Gpio = require('pigpio').Gpio;
 
 // The number of microseconds it takes sound to travel 1cm at 20 degrees celcius
 const MICROSECDONDS_PER_CM = 1e6/34321;
 
+const MIN_VALID_TO_ALERT = 10;
+
 const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
 const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
+let previousStatus = false;
 
 trigger.digitalWrite(0); // Make sure trigger is low
+
+console.log('running');
 
 const watchHCSR04 = () => {
   let startTick;
@@ -18,10 +22,21 @@ const watchHCSR04 = () => {
     } else {
       const endTick = tick;
       const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
-      console.log(diff / 2 / MICROSECDONDS_PER_CM);
+      const distance = diff / 2 / MICROSECDONDS_PER_CM
+      if (distance <= MIN_VALID_TO_ALERT && !previousStatus) {
+        previousStatus = true;
+        emitEvent(previousStatus);
+      } else if (distance > MIN_VALID_TO_ALERT && previousStatus) {
+        previousStatus = false;
+        emitEvent(previousStatus);
+      }
     }
   });
 };
+
+function emitEvent(obstruded) {
+  console.log('obstruded', obstruded);
+}
 
 watchHCSR04();
 
