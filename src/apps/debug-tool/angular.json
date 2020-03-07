@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "debug-tool"
+    }
+  },
+  "defaultProject": "debug-tool",
+  "cli": {
+    "analytics": "ffa5c041-ebf5-40cb-95d6-f88286105a38"
+  }
 }

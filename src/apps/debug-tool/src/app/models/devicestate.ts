@@ -1,5 +1,5 @@
 export interface DeviceState {
-    id: AAGUID;
+    id: String;
     deviceId: String;
     obstructed: boolean;
     batteryLevel: number;

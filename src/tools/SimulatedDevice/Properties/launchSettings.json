@@ -1,7 +1,12 @@
 {
   "profiles": {
     "SimulatedDevice": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "environmentVariables": {
+        "SECONDARY_KEY": "ozi3vfEQ/mLsPVGBAz7Dz3Utne9sR+sshIMaCI5tlpGyaxuwQ1JpRgxiqm4ZBxwy/uY5oz8exztdQA/piHdtrw==",
+        "SCOPE_ID": "0ne000CEB9C",
+        "PRIMARY_KEY": "NrEVzOt8iXlv4LlWkFnQms /PPFreOvaHTv84LtHmTvMoSN/GFKiKu3fV7ZjWpuZpBRgrkWDRvbUKjUiMjUFHAg=="
+      }
     },
     "Docker": {
       "commandName": "Docker"

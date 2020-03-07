@@ -14,9 +14,9 @@ namespace Message.Worker.Business.Implements
     {
         private IDeviceRepository deviceRepository;
 
-        public DeviceBusiness()
+        public DeviceBusiness(IDeviceRepository deviceRepository)
         {
-            this.deviceRepository = new DeviceRepository();
+            this.deviceRepository = deviceRepository;
         }
 
         public async Task ProcessDevice(EventData eventData)
@@ -25,23 +25,14 @@ namespace Message.Worker.Business.Implements
             var deviceEventData = JsonConvert.DeserializeObject<DeviceEvent>(data);
             var deviceId = (string)eventData.SystemProperties["iothub-connection-device-id"];
 
-            var device = await deviceRepository.GetDevice(deviceId);
-
-            if (device != null)
+            var newDevice = new DeviceState()
             {
-                await deviceRepository.UpdateDevice(deviceId, deviceEventData.HasObstacle, (int)deviceEventData.BatteryLevel);
-            }
-            else
-            {
-                var newDevice = new DeviceState()
-                {
-                    DeviceId = deviceId,
-                    Obstructed = deviceEventData.HasObstacle,
-                    BatteryLevel = (int)deviceEventData.BatteryLevel
-                };
+                DeviceId = deviceId,
+                Obstructed = deviceEventData.HasObstacle,
+                BatteryLevel = (int)deviceEventData.BatteryLevel
+            };
 
-                await deviceRepository.InsertDevice(newDevice);
-            }
+            await deviceRepository.InsertDevice(newDevice);
         }
     }
 }

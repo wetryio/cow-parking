@@ -16,6 +16,7 @@ namespace Message.Worker.Tasks
     public class MessageTask : BackgroundService
     {
         private readonly ILogger<MessageTask> logger;
+        private readonly IDeviceBusiness deviceBusiness;
 
         private readonly string eventHubsCompatibleEndpoint;
         private readonly string eventHubsCompatiblePath;
@@ -23,7 +24,8 @@ namespace Message.Worker.Tasks
         private readonly string iotHubSasKeyName;
         private EventHubClient eventHubClient;
 
-        public MessageTask(ILogger<MessageTask> logger, IOptions<ServiceSettings> options)
+        public MessageTask(ILogger<MessageTask> logger, IOptions<ServiceSettings> options,
+                            IDeviceBusiness deviceBusiness)
         {
             this.logger = logger;
             var iotHubEvent = options?.Value?.IotHubEvent;
@@ -35,6 +37,7 @@ namespace Message.Worker.Tasks
             this.eventHubsCompatiblePath = iotHubEvent.EventHubsCompatiblePath;
             this.iotHubSasKey = iotHubEvent.IotHubSasKey;
             this.iotHubSasKeyName = iotHubEvent.IotHubSasKeyName;
+            this.deviceBusiness = deviceBusiness;
 
             InitClient();
         }
@@ -67,7 +70,6 @@ namespace Message.Worker.Tasks
             {
                 Task.Run(async () =>
                 {
-                    var deviceBusiness = new DeviceBusiness();
                     await deviceBusiness.ProcessDevice(eventData);
                 });
             }

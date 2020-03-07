@@ -1,0 +1,100 @@
+{
+  "extends": "tslint:recommended",
+  "linterOptions": {
+    "exclude": [
+      "src/vendor/libs/sidenav/sidenav.js",
+      "src/vendor/libs/mega-dropdown/mega-dropdown.js",
+      "e2e/protractor.conf.js"
+    ]
+  },
+  "rulesDirectory": [
+    "codelyzer"
+  ],
+  "rules": {
+    "deprecation": {
+      "severity": "warning"
+    },
+    "import-blacklist": [
+      true,
+      "rxjs/Rx"
+    ],
+    "max-line-length": [
+      true,
+      140
+    ],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
+    "no-empty": false,
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
+    "no-non-null-assertion": true,
+    "no-string-literal": false,
+    "no-switch-case-fall-through": true,
+    "no-use-before-declare": true,
+    "object-literal-sort-keys": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "no-output-on-prefix": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "array-type": false,
+    "arrow-parens": false,
+    "contextual-lifecycle": true,
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "app",
+      "kebab-case"
+    ],
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "no-consecutive-blank-lines": false,
+    "no-redundant-jsdoc": true,
+    "no-var-requires": false,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "ordered-imports": false,
+    "trailing-comma": false,
+    "no-conflicting-lifecycle": true,
+    "no-host-metadata-property": true,
+    "no-inputs-metadata-property": true,
+    "no-output-native": true,
+    "no-outputs-metadata-property": true,
+    "template-banana-in-box": true,
+    "template-no-negated-async": true,
+    "use-lifecycle-interface": true
+  }
+}

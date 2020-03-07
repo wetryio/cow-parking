@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { DeviceService } from 'src/app/services/device.service';
-import { timer } from 'rxjs';
+import { DeviceState } from './../../models/devicestate';
 import { take } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-devices-debug',
@@ -9,8 +11,9 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./devices-debug.component.scss']
 })
 export class DevicesDebugComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'deviceId', 'obstructed', 'batteryLevel', 'updateAt'];
+  devices: DeviceState[];
 
-  devices: any;
   constructor(private deviceService: DeviceService) {
 
   }
@@ -19,7 +22,7 @@ export class DevicesDebugComponent implements OnInit {
 
     this.deviceService.getDevices().subscribe(s => {
       console.log(s);
-      this.devices = s;
+      this.devices = s as DeviceState[];
     });
     setTimeout(() => this.getDevices(), 1000);
   }
@@ -27,7 +30,7 @@ export class DevicesDebugComponent implements OnInit {
   getDevices() {
     this.deviceService.getDevices().subscribe(s => {
       console.log(s);
-      this.devices = s;
+      this.devices = s as DeviceState[];
     });
 
     setTimeout(() => this.getDevices(), 1000);

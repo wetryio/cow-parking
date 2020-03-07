@@ -1,0 +1,221 @@
+<style>
+    html, body {
+       width: 100%;
+       height: 100%;
+       padding: 0;
+       margin: 0;
+    }
+    html, body, ul, li {
+       padding: 0;
+       margin: 0;
+       list-style: none;
+    }
+    #dropzone {
+      width: 10%;
+      height: 500px;
+    }
+    #map {
+      height: 500px;
+      width: 85%;
+      float: right;
+    }
+    #dropzone li {
+      height: 120px;
+      border: 1px solid #666666;
+    }
+    #dropzone li img {
+      height: 64px;
+    }
+    #dropzone .message {
+      color: #ff0000;
+      font: +1;
+    }
+  </style>
+  
+  <div id="map" style=""></div>
+  <ul id="dropzone">
+  </ul>
+  <p>You can drag the icons inside the map, and you can drag the back out by dragging them to the left of the map</p>
+  <input id="dragged"><br>
+  
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDm80qlI4yZW5xpNHzeMtOtQxiyeVYq5Zw&libraries=geometry"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+  <script>
+  var iconWidth = 64;
+  var iconHeight = 64;
+  var pokemonData = [
+    {
+      id: '001',
+      name: 'Bulbasaur',
+      icon: 'http://www.poke-amph.com/frlg/sprites/large/002.png',
+    },
+    {
+      id: '002',
+      name: 'Ivysaur',
+      icon: 'http://cdn.bulbagarden.net/upload/b/b0/Spr_3r_002.png',
+    },
+    {
+      id: '003',
+      name: 'Pikachu',
+      icon: 'http://pldh.net/media/pokemon/gen3/emerald/025.png',
+    },
+    {
+      id: '004',
+      name: 'Charmander',
+      icon: 'http://cdn.bulbagarden.net/upload/e/e9/Spr_3f_004.png',
+    }];
+  var map;
+  var overlay; // @see http://stackoverflow.com/questions/5510972/google-maps-drag-and-drop-objects-into-google-maps-from-outside-the-map
+  
+  // when the draggable image is dragged into the map.
+  // this is where you want to handle transaction prices ... 
+  function dragIn(e, icon, index) {
+      var x = e.pageX - $('#map').offset().left;
+      var y = e.pageY;
+      if(x > 0) {
+        // the image is inside the position of the map
+  
+        // skip doubles
+        if(pokemonData[index].marker) {  // if you allow multiple of the same icons, remove this
+          return true;
+        }
+        var point=new google.maps.Point(x, y);
+        var position = overlay.getProjection().fromContainerPixelToLatLng(point);
+        // add position to the object
+        pokemonData[index].mapPosition = [position.lat(), position.lng()];
+        generateMarkers([pokemonData[index]]);
+        // reset icon position.  Feel free to hilight , or hide something ...
+        $(icon).attr('style', 'position: relative; left: 0; top: 0;');
+        $('#dropzone li').eq(index).find('.message').html('on map: ' + position.lat().toFixed(6) +','+ position.lng().toFixed(6));
+        // TODO: add extra stuff here
+  
+      }
+  }
+  
+  // when the draggable marker is dragged out of the map.
+  // this is where you want to handle transaction prices ... 
+  function dragOut(e, marker, index) {
+    map.setOptions({draggable: true});
+    // remove the marker from the map
+    marker.setMap(null);
+    pokemonData[index].marker = null;
+    // extra display things
+    var content = '<img src="'+ pokemonData[index].icon +'"/><br/>' + pokemonData[index].name;
+    $('#dropzone li').eq(index).find('.message').html('marker taken off map');
+    // TODO: add extra stuff here
+  }
+  
+  function updateMarkerPosition(e, marker) {
+    var index = pokemonData.itemIndex('marker', marker);
+    var position = e.latLng;
+    // update position
+    $('#dropzone li').eq(index).find('.message').html('on map: ' + position.lat().toFixed(6) +','+ position.lng().toFixed(6));
+  }
+  
+  function generatePageMarkers(data) {
+    for (var i in data) {
+      if(data[i].id) {
+        var content = '<li><img data-id="'+ data[i].id +'" class="dragicon" src="'+ data[i].icon +'"/><br/><span class="name">' + data[i].name + '</span><div class="message"></div></li>';
+        $('#dropzone').append(content);
+      }
+    }
+    $('.dragicon').draggable({
+        stop: function(e, ui) {
+        var index = pokemonData.itemIndex('id', $(this).data('id'));
+        dragIn(e, this, index);
+      }
+    });
+  }
+  
+  function generateMarkers(data) {
+      // generate the markers
+      for (var i in data) {
+        if(!data[i].id) {
+          break;
+        }
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(data[i].mapPosition[0], data[i].mapPosition[1]),
+          map: map,
+          draggable: true,
+          //icon: data[i].icon,
+          icon: {
+            url: data[i].icon,
+            size: google.maps.Size(iconWidth, iconHeight),
+            target: google.maps.Point(iconWidth/2, iconHeight/2),
+            origin: google.maps.Point(iconWidth/2, iconHeight/2)
+          } ,
+          title: data[i].name
+        });
+  
+        google.maps.event.addListener(marker, 'dragend', function(e) {
+          map.setOptions({draggable: true});
+          updateMarkerPosition(e, this);
+        })
+  
+        google.maps.event.addListener(marker, 'drag', function(e) {
+          map.setOptions({draggable: false});
+          var pixelPosition =  getPixelPosition(this);
+          //var index = markers.indexOf(this);
+          var index = pokemonData.itemIndex('marker', this);
+          //if (pixelPosition.right <= 60) {// Get the marker out of the map
+          if (pixelPosition.x <= 10) {// Get the marker out of the map
+            dragOut(e, this, index);
+          }
+          //document.getElementById("dragged").value = 'x: ' + pixelPosition.x +' - right:'+ pixelPosition.right;
+        })
+        // store the variable in the array
+        // markers.push(marker);
+        data[i].marker = marker;
+      }
+  }
+  
+  Array.prototype.itemIndex = function(key, item) {
+      for (i = 0; i < this.length; i++) {
+        if(this[i][key] == item) {
+          return i;
+        }
+      }
+      return -1;
+  };
+  
+  function initialize() {
+      map = new google.maps.Map(document.getElementById("map"), {
+          center: new google.maps.LatLng(50.5,  4.5),
+          zoom: 7,
+          mapTypeId: 'roadmap'
+      });
+      overlay = new google.maps.OverlayView();
+      overlay.draw = function() {};
+      overlay.setMap(map);
+  
+      //generateMarkers(pokemonData);
+      generatePageMarkers(pokemonData);
+  }
+      /**
+      *  returns how many pixels the marker is from the map
+      *  @see https://gist.github.com/keannan5390/3996774  (adapted by me)
+      */
+      function getPixelPosition (marker) {
+        var scale = Math.pow(2, map.getZoom());
+        var nw = new google.maps.LatLng(
+          map.getBounds().getNorthEast().lat(),
+          map.getBounds().getSouthWest().lng()
+        );
+        var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+        var worldCoordinate = map.getProjection().fromLatLngToPoint(marker.getPosition());
+        var pixelOffset = new google.maps.Point(
+          Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+          Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+        );
+        return {
+          x: pixelOffset.x,
+          y: pixelOffset.y,
+          right:  document.getElementById("map").clientWidth - pixelOffset.x,
+          bottom: document.getElementById("map").clientHeight - pixelOffset.y
+        };
+      }
+  
+  google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
