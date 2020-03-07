@@ -2,7 +2,6 @@ import { ConfigurationFileAccess } from "./ConfigurationFileAccess";
 import { ProvisioningGenerator, ProvisioningGeneratorResultType } from "./ProvisionningGenerator";
 import * as fs from "fs";
 import { ConfigurationDevice } from "../Models/ConfigurationDevice";
-import { ProvisioningDeviceClient } from 'azure-iot-provisioning-device';
 import { ProvisioningFacade } from "./ProvisioningFacade";
 
 export class ProvisioningBusiness {
@@ -42,7 +41,8 @@ export class ProvisioningBusiness {
 
     private IsDeviceIdFromConfigIsMatching(): boolean {
         const configuration = this.fileAccessor.GetConfiguration();
-        return this.generatedDeviceId != configuration?.DeviceId;
+        console.log("compare deviceid");
+        return this.generatedDeviceId === configuration?.DeviceId;
     }
 
     private ReadDeviceId(): string {
