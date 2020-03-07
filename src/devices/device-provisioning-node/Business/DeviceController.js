@@ -8,11 +8,10 @@ const MIN_VALID_TO_ALERT = 10;
 const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
 const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
 
-const greenLed = new Gpio(15, {mode: Gpio.OUTPUT});
-const redLed = new Gpio(18, {mode: Gpio.OUTPUT});
+const greenLed = new Gpio(8, {mode: Gpio.OUTPUT});
+const redLed = new Gpio(7, {mode: Gpio.OUTPUT});
 
 let previousStatus = false; // true = obstruded
-changeLedStatus(previousStatus);
 
 trigger.digitalWrite(0); // Make sure trigger is low
 
@@ -45,6 +44,9 @@ const changeLedStatus = (status) => {
     greenLed.digitalWrite(status ? 0 : 1);
     redLed.digitalWrite(status ? 1 : 0);
 }
+
+// First led init
+changeLedStatus(previousStatus);
 
 module.exports = {
     runDeviceController: function(statusChangedCallback) {
