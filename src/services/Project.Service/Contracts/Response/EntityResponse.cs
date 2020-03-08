@@ -11,6 +11,8 @@ namespace Entity.Service.Contracts.Response
         public string Name { get; set; }
         public string Description { get; set; }
         public string PostCode { get; set; }
+        public double? Lat{ get; set; }
+        public double? Lng { get; set; }
         public int DeviceCount { get; set; }
         public DateTime CreateAt { get; set; }
     }

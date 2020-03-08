@@ -20,13 +20,14 @@ namespace ProvisioningService.Management.Client.Business.Implements
 
         public IotEdgeProvisioningBusiness()
         {
-            registryManager = RegistryManager.CreateFromConnectionString("HostName=CowHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=rc2TO9FzL8IQpQkmwdEXct8Tv5fJzchVgexEQJ6nPGk=");
+            registryManager = RegistryManager.CreateFromConnectionString("HostName=IotAdmin.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=67sJpyzluy5nnrsRBWht/nPptY9LFFrv50z7H6Xm67M=");
             provisioningServiceClient = ProvisioningServiceClient.CreateFromConnectionString("HostName=CowParkingDevices.azure-devices-provisioning.net;SharedAccessKeyName=provisioningserviceowner;SharedAccessKey=TojavzxrP8SpAWNqUto+cwbohURmpobEOD5q2MNka08=");
             serviceClient = ServiceClient.CreateFromConnectionString("HostName=IotAdmin.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=67sJpyzluy5nnrsRBWht/nPptY9LFFrv50z7H6Xm67M=");
         }
 
         public async Task<bool> SetupDevice(string deviceId, string pk, string sk, string enrollmentGroup)
         {
+            var devices = await registryManager.GetDevicesAsync(int.MaxValue);
             var methodInvocation = new CloudToDeviceMethod("SetupDevice") { ResponseTimeout = TimeSpan.FromSeconds(30) };
             var deviceSetupeRequest = new
             {
@@ -34,7 +35,7 @@ namespace ProvisioningService.Management.Client.Business.Implements
                 secondaryKey = sk,
                 enrollmentGroup = enrollmentGroup
             };
-            
+
             methodInvocation.SetPayloadJson(JsonConvert.SerializeObject(deviceSetupeRequest));
             var setupDeviceResponse = await serviceClient.InvokeDeviceMethodAsync(deviceId, methodInvocation);
 
@@ -55,13 +56,12 @@ namespace ProvisioningService.Management.Client.Business.Implements
 
             var properties = new TwinCollection()
             {
+
             };
 
             enrollementGroup.InitialTwinState = new TwinState(tags, properties);
             enrollementGroup.IotHubs = new List<string>();
             enrollementGroup.IotHubs.Add("CowHub.azure-devices.net");
-
-
             enrollementGroup.AllocationPolicy = AllocationPolicy.Hashed;
             enrollementGroup.ProvisioningStatus = ProvisioningStatus.Enabled;
             enrollementGroup.ReprovisionPolicy = new ReprovisionPolicy()

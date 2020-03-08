@@ -433,3 +433,34 @@ html:not(.material-style) .material-style-only {
 .layout-example-block-3 .layout-example-block-footer {
   background: #e6514a;
 }
+
+
+    .pulseIcon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: orange;
+        border: 2px solid white;
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(0, 204, 255, 0.4);
+        animation: pulse 3s infinite;
+    }
+
+        .pulseIcon:hover {
+            animation: none;
+        }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 204, 255, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 50px rgba(0, 204, 255, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 204, 255, 0);
+        }
+    }

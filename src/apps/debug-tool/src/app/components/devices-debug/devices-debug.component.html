@@ -1,3 +1,7 @@
+<button (click)="real = true;" mat-raised-button color="primary">Real device only</button>
+<button (click)="real = false;" mat-raised-button color="warning">All device only</button>
+
+
 <table mat-table [dataSource]="devices" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -23,16 +27,33 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="free">
+        <th mat-header-cell *matHeaderCellDef> Is Free </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="circle" [ngClass]="element.free ? 'red' : 'green'"></div>
+        </td>
+    </ng-container>
+
     <!-- Symbol Column -->
     <ng-container matColumnDef="batteryLevel">
         <th mat-header-cell *matHeaderCellDef> Battery </th>
-        <td mat-cell *matCellDef="let element"> {{element.batteryLevel}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.batteryLevel}}% </td>
     </ng-container>
 
     <ng-container matColumnDef="updateAt">
         <th mat-header-cell *matHeaderCellDef> Update at </th>
         <td mat-cell *matCellDef="let element"> {{element.updateAt}} </td>
     </ng-container>
+
+    <ng-container matColumnDef="command">
+        <th mat-header-cell *matHeaderCellDef> Command </th>
+        <td mat-cell *matCellDef="let element">
+            <button  mat-raised-button color="warning">
+                Reset
+            </button>
+        </td>
+    </ng-container>
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

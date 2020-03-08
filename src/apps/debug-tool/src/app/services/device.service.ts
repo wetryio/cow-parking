@@ -9,9 +9,9 @@ export class DeviceService {
   debugUrl = "http://debugtools.tools.185.136.234.221.xip.io";
   constructor(private http: HttpClient) { }
 
-  getDevices() {
+  getDevices(contains: string) {
     return this
       .http
-      .get(`${this.debugUrl}/debug/devices`);
+      .get(`${this.debugUrl}/debug/devices?contains=${contains}`);
   }
 }

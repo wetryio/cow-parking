@@ -49,8 +49,23 @@ namespace SimulatedDevice
 
             deviceClient = DeviceClient.Create(result.AssignedHub, auth, TransportType.Amqp);
             await deviceClient.OpenAsync().ConfigureAwait(false);
+#pragma warning disable 4014
+            Task.Run(async () => await ListenCommands());
+#pragma warning restore 4014
+
             SendDeviceToCloudMessagesAsync();
         }
+#pragma warning disable 1998
+        private async Task ListenCommands()
+        {
+            deviceClient.SetMethodHandlerAsync("SetupDevice", SetTelemetryInterval, null).Wait();
+        }
+
+        private async Task<MethodResponse> SetTelemetryInterval(MethodRequest methodRequest, object userContext)
+        {
+            return new MethodResponse(200);
+        }
+#pragma warning restore 1998
 
         private void VerifyRegistrationIdFormat(string v)
         {

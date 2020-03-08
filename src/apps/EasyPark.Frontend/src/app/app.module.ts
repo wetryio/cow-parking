@@ -24,6 +24,7 @@ import { AuthService } from './services/auth.service';
 import { InterceptorService } from './interceptors/interceptor.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { EntityService } from './services/entity.service';
+import { DeviceService } from './services/device.service';
 
 // *******************************************************************************
 //
@@ -46,6 +47,7 @@ import { EntityService } from './services/entity.service';
     Title,
     AppService,
     EntityService,
+    DeviceService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

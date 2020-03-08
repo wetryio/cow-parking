@@ -24,7 +24,7 @@
           fill="url(#d)"></path>
       </svg>
     </span>
-    <a routerLink="/" class="app-brand-text demo sidenav-text font-weight-normal ml-2">EasyPark</a>
+    <a routerLink="/" class="app-brand-text demo sidenav-text font-weight-normal ml-2">ParkMe</a>
   </div>
   <div class="sidenav-divider mt-0" *ngIf="orientation !== 'horizontal'"></div>
 
@@ -37,7 +37,8 @@
 
     <sidenav-divider class="mb-1"></sidenav-divider>
 
-    <sidenav-router-link (click)="open(slideModal, { windowClass: 'modal-slide' })">Create new entity
+    <sidenav-router-link (click)="open(slideModal, { windowClass: 'modal-slide' })">
+      <button class="btn btn-primary">Create new entity</button>
     </sidenav-router-link>
 
     <sidenav-menu icon="ion ion-logo-buffer" [active]="isMenuActive('/entity')" [open]="isMenuOpen('/entity')"

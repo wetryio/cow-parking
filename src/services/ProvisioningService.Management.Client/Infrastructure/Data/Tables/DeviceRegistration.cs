@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProvisioningService.Management.Client.Infrastructure.Data.Tables
 {
     public class DeviceRegistration
     {
+        [Key]
         public Guid Id { get; set; }
         public string DeviceId { get; set; }
-        public Guid EntityId { get; set; }
+        public Guid? EntityId { get; set; }
     }
 }

@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>HTML Marker Pulse Animation - Azure Maps Web SDK Samples</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+          content="This sample shows how to pulse animate the position of a HTML marker on the map using CSS." />
+    <meta name="keywords"
+          content="Microsoft maps, map, gis, API, SDK, animate, animation, symbol, pushpin, marker, pin" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css"
+          type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <script src="signalr.min.js"></script>
+
+</head>
+
+<body onload='GetMap()'>
+    <h2>Admin</h2>
+    <button id="hide" style="height:50px; width:100%;">Hide all markers</button>
+
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:100vh;"></div>
+
+    <script>
+        var map;
+        var hideButton = document.getElementById("hide");
+        hideButton.addEventListener('click', () => {
+            connection.invoke("HideMarker").catch(err => console.error(err.toString()));
+        });
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/map")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [5.5303308, 50.5932038],
+                view: 'Auto',
+                zoom: 15,
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'uQoYKL8oYqJSFLOciOLJ1cD3PTti8wlw4wo87oG9Xbs'
+                }
+            });
+
+            map.events.add('ready', function () {
+                connection.start().then(function () {
+                    console.log("connected");
+                });
+
+                map.events.add('mousedown', function (e) {
+                    connection.invoke("ShowMarker", e.position).catch(err => console.error(err.toString()));
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

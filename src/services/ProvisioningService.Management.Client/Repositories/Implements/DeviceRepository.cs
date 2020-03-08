@@ -18,7 +18,9 @@ namespace ProvisioningService.Management.Client.Repositories.Implements
 
         public Task<DeviceRegistration[]> GetAvailableDevices(int count)
         {
-            return deviceDbContext.DeviceRegistration.Where(d => d.EntityId == null)
+            var devices = deviceDbContext.DeviceRegistration.ToArray();
+            return deviceDbContext.DeviceRegistration.Where(d => d.EntityId == null 
+                                                            && !d.DeviceId.Contains("simulated"))
                     .Take(count)
                     .ToArrayAsync();
         }

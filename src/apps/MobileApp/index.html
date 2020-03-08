@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+          content="This sample shows how to pulse animate the position of a HTML marker on the map using CSS." />
+    <meta name="keywords"
+          content="Microsoft maps, map, gis, API, SDK, animate, animation, symbol, pushpin, marker, pin" />
+    <meta name="author" content="Microsoft Azure Maps" />
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css"
+          type="text/css" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+    <script src="signalr.min.js"></script>
+
+    <script>
+        var map;
+
+
+        function GetData() {
+            return fetch('http://device-service.services.185.136.234.221.xip.io/api/device').then((response) => {
+                return response.json();
+            });
+        }
+
+        function GetMap() {
+            //Initialize a map instance.
+            map = new atlas.Map('myMap', {
+                center: [5.5303308, 50.5932038],
+                view: 'Auto',
+                zoom: 15,
+                //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+                authOptions: {
+                    authType: 'subscriptionKey',
+                    subscriptionKey: 'uQoYKL8oYqJSFLOciOLJ1cD3PTti8wlw4wo87oG9Xbs'
+                }
+            });
+
+            map.events.add('ready', function () {
+
+               setInterval(() => GetData().then(response => {
+                    map.markers.clear();
+                    for (var i = 0; i < response.length; i++) {
+
+                        var cssClass = '';
+
+                        if (!response[i].available)
+                            cssClass = 'obstructed';
+
+                        var marker = new atlas.HtmlMarker({
+                            htmlContent: '<div class="pulseIcon ' + cssClass +'"></div>',
+                            position: [response[i].lat, response[i].lng]
+                        });
+                        map.markers.add(marker);
+                    }
+                }), 1000);
+
+                //const connection = new signalR.HubConnectionBuilder()
+                //    .withUrl("/map")
+                //    .configureLogging(signalR.LogLevel.Information)
+                //    .build();
+
+                //connection.start().then(function () {
+                //    console.log("connected");
+                //});
+
+                //connection.on("Show", (e) => {
+                //    var marker = new atlas.HtmlMarker({
+                //        htmlContent: '<div class="pulseIcon"></div>',
+                //        position: e
+                //    });
+
+                //    map.markers.add(marker);
+                //});
+
+                //connection.on("Hide", () => {
+                //    map.markers.clear();
+                //});
+            });
+        }
+
+    </script>
+    <style type="text/css">
+        .pulseIcon {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: green;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(0, 204, 255, 0.4);
+            animation: pulse 3s infinite;
+        }
+
+            .pulseIcon:hover {
+                animation: none;
+            }
+
+        .obstructed {
+            background: red;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 204, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 50px rgba(0, 204, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 204, 255, 0);
+            }
+        /*}*/
+    </style>
+</head>
+
+<body onload='GetMap()'>
+    <div id="myMap" style="position:relative;width:100%;min-width:290px;height:100vh;"></div>
+</body>
+
+</html>
