@@ -18,7 +18,7 @@ adminListener.listenMethod1((req, resp) => {
 
 // Device management
 runDeviceController((status: boolean) => {
-    adminListener.sentMessage({ hasObstable: status, batteryLevel: 10 })?.then(() => {
+    adminListener.sentMessage({ hasObstacle: status, batteryLevel: 10 })?.then(() => {
         console.log('status sent', status);
     });
 });

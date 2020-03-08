@@ -23,7 +23,7 @@ export class AdminListeners {
         this.client.onDeviceMethod('listenMethod1', callback);
     }
 
-    public sentMessage(message: { hasObstable: boolean, batteryLevel: number }) {
+    public sentMessage(message: { hasObstacle: boolean, batteryLevel: number }) {
         const messageObj = new Message(JSON.stringify(message));
         messageObj.messageId = uuid.v4();
         return this.client?.sendEvent(messageObj);
