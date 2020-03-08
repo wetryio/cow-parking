@@ -4,4 +4,5 @@ export interface ConfigurationDevice {
     IdScope: string;
     PrimaryKey: string;
     SecondaryKey: string;
+    IsRegistered: boolean;
 }

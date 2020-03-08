@@ -17,6 +17,7 @@ namespace SimulatedDevice
 
         public static int Main(string[] args)
         {
+            Console.WriteLine(ComputeDerivedSymmetricKey(Convert.FromBase64String("Iyppvm9WIbViax1XlyrqW+/5R1ZPf3hyhtXp2ctS+s5AbsvCvnH5ma0V1UxX2GBY+1MnVoQYtsrMppVn4H/I5Q=="), "10000000794b8d77"));
             if (string.IsNullOrWhiteSpace(idScope) && (args.Length > 0))
             {
                 idScope = args[0];

@@ -4,11 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "pushmodule": "cp -R node_modules dist/node_modules",
+    "push": "scp -r ./dist pi@cow.master:/home/pi"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^13.7.7"
+  },
+  "dependencies": {
+    "azure-iot-device": "^1.12.2",
+    "azure-iot-device-amqp": "^1.11.2",
+    "azure-iot-device-http": "^1.11.2",
+    "azure-iot-device-mqtt": "^1.11.2",
+    "azure-iot-provisioning-device": "^1.7.2",
+    "azure-iot-provisioning-device-amqp": "^1.7.2",
+    "azure-iot-provisioning-device-http": "^1.7.2",
+    "azure-iot-provisioning-service": "^1.7.2",
+    "azure-iot-security-symmetric-key": "^1.6.2",
+    "typescript": "^3.8.3",
+    "uuid": "^7.0.2",
+    "pigpio": "^3.0.0"
   }
 }
